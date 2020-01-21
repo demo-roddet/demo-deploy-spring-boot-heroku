@@ -74,9 +74,14 @@ public class Startup {
 		if (this.chambreRepository.count() == 0) {
 			Hotel h1 = this.hotelRepository.findByNom("Ritz")
 					.orElseThrow(() -> new EntityNotFoundException("hotel non trouvé"));
+			Hotel h2 = this.hotelRepository.findByNom("Formule1")
+					.orElseThrow(() -> new EntityNotFoundException("hotel non trouvé"));
 			List<Chambre> chambres = new ArrayList<>();
 			chambres.add(new Chambre("1", 20.0F, h1));
 			chambres.add(new Chambre("2", 20.0F, h1));
+			chambres.add(new Chambre("3A", 15.0F, h2));
+			chambres.add(new Chambre("5A", 13.0F, h2));
+			this.chambreRepository.saveAll(chambres);
 
 		}
 
