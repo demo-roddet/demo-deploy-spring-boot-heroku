@@ -91,6 +91,7 @@ public class Startup {
 			List<Chambre> chambres = this.chambreRepository.findAll();
 			List<Reservation> reservations = new ArrayList<>();
 			reservations.add(new Reservation(LocalDate.of(2019, 12, 15), LocalDate.of(2019, 12, 17), c1, chambres));
+			this.reservationRepository.saveAll(reservations);
 		}
 
 	}
