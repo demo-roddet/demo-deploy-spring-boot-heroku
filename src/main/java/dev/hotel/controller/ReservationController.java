@@ -81,4 +81,12 @@ public class ReservationController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("erreur " + exception.getMessage());
 	}
 
+	@RequestMapping(method = RequestMethod.GET, path = "/lister")
+	public List<Reservation> listerResa() {
+		List<Reservation> reservations = this.reservationRepository.findAll();
+
+		return reservations;
+
+	}
+
 }
