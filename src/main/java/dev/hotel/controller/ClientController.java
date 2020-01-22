@@ -2,8 +2,11 @@ package dev.hotel.controller;
 
 import java.util.Optional;
 
+import javax.persistence.EntityExistsException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,22 +40,23 @@ public class ClientController {
 	// }
 
 	@RequestMapping(method = RequestMethod.POST, path = "clients")
-	public ResponseEntity<String> post400(@RequestBody Client clientRecu) {
+	public Client post400(@RequestBody Client clientRecu) {
 		Client client = new Client();
-
 		Optional<Client> clients = this.clientRepository.findByNomAndPrenoms(clientRecu.getNom(),
 				clientRecu.getPrenoms());
-		ResponseEntity<String> body = null;
+
 		if (!clients.isPresent()) {
 			client.setNom(clientRecu.getNom());
 			client.setPrenoms(clientRecu.getPrenoms());
 			this.clientRepository.save(client);
-			body = ResponseEntity.status(HttpStatus.CREATED)
-					.body(client.getNom() + " " + client.getPrenoms() + " a bien été ajouté en base");
-
 		} else {
-			body = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("le client est déjà en bdd");
+			throw new EntityExistsException();
 		}
-		return body;
+		return client;
+	}
+
+	@ExceptionHandler(value = { EntityExistsException.class })
+	public ResponseEntity<String> ClientPresent(EntityExistsException exception) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("client déja en bdd");
 	}
 }
