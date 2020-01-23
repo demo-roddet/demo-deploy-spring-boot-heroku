@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-tofit=
+no">
+<!-- Bootstrap CSS  -->
+<link rel="stylesheet" href="/bootstrap-4.4.1/dist/css/bootstrap.css" />
+<title>Hotel - reservation</title>
+</head>
+<script type="text/javascript" src="index.js"></script>
+<body>
+
+	<div class="countainer px-5 py-5">
+		<h1>Reservation Hotel</h1>
+		<form action="post">
+			<div class="row">
+				<div class="col-6">
+
+					<div class="form-group" id="client">
+						<label for="client">client</label>
+						<script type="text/javascript">
+							recupererClients()
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="row px-5 ">
+				<div id="cham">	<script type="text/javascript">
+				recupererChambres()
+						</script></div>
+			</div>
+			 <div class="row">
+                <div class="col-8 col-sm-2 ">
+                    <label for="dateDebut">Date d'arrivée</label>
+                </div>
+                <div class=" col-8 col-sm-4 form-group">
+                    <input type="date" name="dateDebut" id="dateDebut" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 col-sm-2 ">
+                    <label for="dateFin">Date de départ</label>
+                </div>
+                <div class=" col-8 col-sm-4 form-group">
+                    <input type="date" name="dateFin" id=dateFin class="form-control">
+                </div>
+            </div>
+			 <div class="row mb-3">
+            <div class="col-8 col-lg-3">
+                <a class="btn btn-secondary" onclick="confirmerReservation()" role="button">Confirmer la réservation</a>
+            </div>
+			
+		</form>
+	</div>
+
+</body>
+</html>

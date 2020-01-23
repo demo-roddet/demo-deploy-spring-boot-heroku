@@ -46,9 +46,9 @@ public class ReservationController {
 	@RequestMapping(method = RequestMethod.POST)
 	public Reservation postReservation(@RequestBody ReservationJson reservationRecu) {
 		Reservation resa = new Reservation();
-		Client client = new Client();
-		if (clientRepository.findById(reservationRecu.getClientId()).isPresent()) {
 
+		if (clientRepository.findById(reservationRecu.getClientId()).isPresent()) {
+			Client client = new Client();
 			client = clientRepository.findById(reservationRecu.getClientId()).get();
 			resa.setClient(client);
 
@@ -71,13 +71,13 @@ public class ReservationController {
 
 			}
 		}
-
+		ResponseEntity.status(HttpStatus.CREATED);
 		return this.reservationRepository.save(resa);
 
 	}
 
 	@ExceptionHandler(value = { EntityNotFoundException.class })
-	public ResponseEntity<String> ReservationPresent(EntityNotFoundException exception) {
+	public ResponseEntity<String> reservationPresent(EntityNotFoundException exception) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("erreur " + exception.getMessage());
 	}
 

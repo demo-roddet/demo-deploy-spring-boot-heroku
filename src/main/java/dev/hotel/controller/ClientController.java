@@ -1,5 +1,6 @@
 package dev.hotel.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityExistsException;
@@ -28,13 +29,14 @@ public class ClientController {
 		this.clientRepository = clientRepository;
 	}
 
-	// @RequestMapping(method = RequestMethod.GET, path = "clients")
-	// public List<Client> clients() {
-	// return this.clientRepository.findAll();
-	//
-	// }
+	@RequestMapping(method = RequestMethod.GET, path = "clients/lister")
+	public List<Client> clients() {
+		List<Client> listeClients = this.clientRepository.findAll();
+		return listeClients;
 
-	// @RequestMapping(method = RequestMethod.GET, path = "clients")
+	}
+
+	// @RequestMapping(method = RequestMethod.GET, path = "clients/lister")
 	// public List<Client> query(@RequestParam("nom") String nomRequete) {
 	// return this.clientRepository.findByNom("Pierre");
 	// }
