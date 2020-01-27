@@ -5,9 +5,12 @@ import java.util.UUID;
 
 import javax.persistence.EntityExistsException;
 
+import org.springframework.stereotype.Service;
+
 import dev.hotel.entite.Client;
 import dev.hotel.repository.ClientRepository;
 
+@Service
 public class ClientService {
 
 	private ClientRepository clientRepository;
