@@ -16,4 +16,6 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
 
 	Optional<Client> findByNomAndPrenoms(String nom, String prenoms);
 
+	boolean existsByNomAndPrenoms(String nom, String prenoms);
+
 }

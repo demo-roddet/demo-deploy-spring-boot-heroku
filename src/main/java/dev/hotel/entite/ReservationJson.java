@@ -5,12 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+
 public class ReservationJson extends BaseEntite {
 
+	@Future
+	@NotNull
 	private LocalDate dateDebut;
+	@Future
+	@NotNull
 	private LocalDate dateFin;
+	@NotNull
 	private UUID clientId;
-	private List<UUID> chambres = new ArrayList<>();
+
+	private List<@NotNull UUID> chambres = new ArrayList<>();
 
 	/**
 	 * Getter
@@ -24,8 +33,7 @@ public class ReservationJson extends BaseEntite {
 	/**
 	 * Setter
 	 * 
-	 * @param dateDebut
-	 *            the dateDebut to set
+	 * @param dateDebut the dateDebut to set
 	 */
 	public void setDateDebut(LocalDate dateDebut) {
 		this.dateDebut = dateDebut;
@@ -43,8 +51,7 @@ public class ReservationJson extends BaseEntite {
 	/**
 	 * Setter
 	 * 
-	 * @param dateFin
-	 *            the dateFin to set
+	 * @param dateFin the dateFin to set
 	 */
 	public void setDateFin(LocalDate dateFin) {
 		this.dateFin = dateFin;
@@ -62,8 +69,7 @@ public class ReservationJson extends BaseEntite {
 	/**
 	 * Setter
 	 * 
-	 * @param clientId
-	 *            the clientId to set
+	 * @param clientId the clientId to set
 	 */
 	public void setClientId(UUID clientId) {
 		this.clientId = clientId;
@@ -81,8 +87,7 @@ public class ReservationJson extends BaseEntite {
 	/**
 	 * Setter
 	 * 
-	 * @param chambres
-	 *            the chambres to set
+	 * @param chambres the chambres to set
 	 */
 	public void setChambres(List<UUID> chambres) {
 		this.chambres = chambres;

@@ -1,60 +1,54 @@
 package dev.hotel.controller;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 import javax.persistence.EntityExistsException;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.hotel.entite.Client;
-import dev.hotel.repository.ClientRepository;
+import dev.hotel.service.ClientService;
 
 @RestController
+@RequestMapping("clients")
 public class ClientController {
 
-	private ClientRepository clientRepository;
+	private ClientService clientService;
 
-	/**
-	 * @param clientRepository
-	 */
-	public ClientController(ClientRepository clientRepository) {
+	public ClientController(ClientService clientService) {
 		super();
-		this.clientRepository = clientRepository;
+		this.clientService = clientService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, path = "clients/lister")
-	public List<Client> clients() {
-		List<Client> listeClients = this.clientRepository.findAll();
-		return listeClients;
-
+	@GetMapping
+	public List<Client> listerClients() {
+		return this.clientService.listerClients();
 	}
 
-	// @RequestMapping(method = RequestMethod.GET, path = "clients/lister")
-	// public List<Client> query(@RequestParam("nom") String nomRequete) {
-	// return this.clientRepository.findByNom("Pierre");
-	// }
+	@GetMapping(params = "nom")
+	public List<Client> rechercherParNom(@RequestParam("nom") String nomRequete) {
+		return this.clientService.findByNom(nomRequete);
+	}
 
-	@RequestMapping(method = RequestMethod.POST, path = "clients")
-	public Client post400(@RequestBody Client clientRecu) {
-		Client client = new Client();
-		Optional<Client> clients = this.clientRepository.findByNomAndPrenoms(clientRecu.getNom(),
-				clientRecu.getPrenoms());
+	@PostMapping
+	public UUID creerClient(@RequestBody @Valid Client clientRecu) {
+		return this.clientService.creerClient(clientRecu);
+	}
 
-		if (!clients.isPresent()) {
-			client.setNom(clientRecu.getNom());
-			client.setPrenoms(clientRecu.getPrenoms());
-			this.clientRepository.save(client);
-		} else {
-			throw new EntityExistsException();
-		}
-		return client;
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<?> validationException(MethodArgumentNotValidException ex) {
+		return ResponseEntity.badRequest().body(ex.getMessage());
 	}
 
 	@ExceptionHandler(value = { EntityExistsException.class })
